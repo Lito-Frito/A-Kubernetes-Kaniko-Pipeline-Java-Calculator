@@ -44,7 +44,7 @@ podTemplate(yaml: '''
           pwd
           ls
           cd Chapter08/sample1
-          sed -i '4 a /** Main app */' Chapter08/sample1/src/main/java/com/leszko/calculator/Calculator.java
+          sed -i '4 a /** Main app */' src/main/java/com/leszko/calculator/Calculator.java
           chmod +x gradlew
           ./gradlew build
           mv ./build/libs/calculator-0.0.1-SNAPSHOT.jar /mnt
