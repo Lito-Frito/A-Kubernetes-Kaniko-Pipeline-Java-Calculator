@@ -39,52 +39,56 @@ podTemplate(yaml: '''
     stage('Run pipeline against a gradle project') {
         git branch: 'master', url: 'https://github.com/crc8109/W7'
         container('gradle') {
-
-            stage('Build a gradle project!') {
-                echo "I am the ${env.BRANCH_NAME} branch"
-                sh '''
-                pwd
-                chmod +x gradlew
-                ./gradlew test
-                '''
-                }
-
-            stage("Code coverage!") {
-                echo "CC is for Master branch; this is ${env.BRANCH_NAME}"
-                if (env.BRANCH_NAME == "master") {
-                    sh '''
-                        pwd
-                        ./gradlew jacocoTestReport
-                        ./gradlew jacocoTestCoverageVerification
-                    '''
-
-
-                publishHTML (target: [
-                    reportDir: 'build/reports/jacoco/test/html',
-                    reportFiles: 'index.html',
-                    reportName: "JaCoCo Report"
-                ])
-                }
-            }
-
-            stage("Static code analysis!") {
-                echo "going to test statically now"
-                if (env.BRANCH_NAME == "master" || env.BRANCH_NAME == "feature") {
+            try {
+                stage('Build a gradle project!') {
+                    echo "I am the ${env.BRANCH_NAME} branch"
                     sh '''
                     pwd
-                    ./gradlew checkstyleMain
+                    chmod +x gradlew
+                    ./gradlew test
                     '''
+                    }
+
+                stage("Code coverage!") {
+                    echo "CC is for Master branch; this is ${env.BRANCH_NAME}"
+                    if (env.BRANCH_NAME == "master") {
+                        sh '''
+                            pwd
+                            ./gradlew jacocoTestReport
+                            ./gradlew jacocoTestCoverageVerification
+                        '''
+
+
                     publishHTML (target: [
-                        reportDir: 'build/reports/checkstyle/',
-                        reportFiles: 'main.html',
-                        reportName: "Checkstyle Report"
+                        reportDir: 'build/reports/jacoco/test/html',
+                        reportFiles: 'index.html',
+                        reportName: "JaCoCo Report"
                     ])
+                    }
                 }
+
+                stage("Static code analysis!") {
+                    echo "going to test statically now"
+                    if (env.BRANCH_NAME == "master" || env.BRANCH_NAME == "feature") {
+                        sh '''
+                        pwd
+                        ./gradlew checkstyleMain
+                        '''
+                        publishHTML (target: [
+                            reportDir: 'build/reports/checkstyle/',
+                            reportFiles: 'main.html',
+                            reportName: "Checkstyle Report"
+                        ])
+                    }
+                }
+            } catch (Exception E) {
+                echo 'Failure detected'
             }
         }
-  }
+    }
 
     stage('Build Java Image') {
+      if (env.BRANCH_NAME != "playground") {
       container('kaniko') {
         stage('Build a container') {
           sh '''
@@ -95,9 +99,9 @@ podTemplate(yaml: '''
           mv /mnt/calculator-0.0.1-SNAPSHOT.jar .
           /kaniko/executor --context `pwd` --destination crc8109/hello-kaniko:1.0
           '''
+          }
         }
       }
     }
-
   }
 }
