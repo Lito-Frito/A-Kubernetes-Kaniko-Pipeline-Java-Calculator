@@ -92,17 +92,22 @@ podTemplate(yaml: '''
       if (env.BRANCH_NAME != "playground") {
         container('kaniko') {
           stage('Build a container') {
-            new_branch_name = ""
-            if (env.BRANCH_NAME != "master") {
-              new_branch_name = "-" + env.BRANCH_NAME
+            img_version = ""
+            if (env.BRANCH_NAME == "master") {
+              img_version = ":1.0"
             }
+
+            if (env.BRANCH_NAME == "feature") {
+              img_version = "-feature:1.0"
+            }
+
             sh '''
             echo 'FROM openjdk:8-jre' > Dockerfile
             echo 'COPY ./calculator-0.0.1-SNAPSHOT.jar app.jar' >> Dockerfile
             echo 'ENTRYPOINT ["java", "-jar", "app.jar"]' >> Dockerfile
             ls /mnt/*jar
             mv /mnt/calculator-0.0.1-SNAPSHOT.jar .
-            /kaniko/executor --context `pwd` --destination crc8109/calculator${new_branch_name}:1.0
+            /kaniko/executor --context `pwd` --destination crc8109/calculator${img_name}
             '''
           }
         }
