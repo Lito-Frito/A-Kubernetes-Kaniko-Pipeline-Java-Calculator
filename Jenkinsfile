@@ -98,7 +98,7 @@ podTemplate(yaml: '''
             }
 
             if (env.BRANCH_NAME == "feature") {
-              img_version = "-feature:1.0"
+              img_version = "-feature:0.1"
             }
 
             sh '''
