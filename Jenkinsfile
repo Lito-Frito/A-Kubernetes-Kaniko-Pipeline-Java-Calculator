@@ -37,12 +37,15 @@ podTemplate(yaml: '''
 ''') {
   node(POD_LABEL) {
     stage('Run pipeline against a gradle project') {
-        git branch: 'master', url: 'https://github.com/crc8109/W7'
+        git 'https://github.com/dlambrig/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
         container('gradle') {
             try {
                 stage('Build a gradle project!') {
                     echo "I am the ${env.BRANCH_NAME} branch"
                     sh '''
+                    pwd
+                    cd Chapter08/sample1
+                    sed -i '4 a /** Main app */' src/main/java/com/leszko/calculator/Calculator.java
                     pwd
                     chmod +x gradlew
                     ./gradlew test
