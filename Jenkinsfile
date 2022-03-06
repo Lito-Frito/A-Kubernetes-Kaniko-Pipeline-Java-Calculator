@@ -95,6 +95,7 @@ podTemplate(yaml: '''
             new_branch_name = ""
             if (env.BRANCH_NAME != "master") {
               new_branch_name = "-" + env.BRANCH_NAME
+              println(new_branch_name)
             }
             sh '''
             echo 'FROM openjdk:8-jre' > Dockerfile
