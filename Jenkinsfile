@@ -37,7 +37,7 @@ podTemplate(yaml: '''
 ''') {
   node(POD_LABEL) {
     stage('Run pipeline against a gradle project') {
-        git branch: 'main', url: 'https://github.com/crc8109/W7'
+        git branch: 'master', url: 'https://github.com/crc8109/W7'
         container('gradle') {
 
             stage('Build a gradle project!') {
@@ -50,8 +50,8 @@ podTemplate(yaml: '''
                 }
 
             stage("Code coverage!") {
-                echo "CC is for Main branch; this is ${env.BRANCH_NAME}"
-                if (env.BRANCH_NAME == "main") {
+                echo "CC is for Master branch; this is ${env.BRANCH_NAME}"
+                if (env.BRANCH_NAME == "master") {
                     sh '''
                         pwd
                         ./gradlew jacocoTestReport
@@ -69,15 +69,17 @@ podTemplate(yaml: '''
 
             stage("Static code analysis!") {
                 echo "going to test statically now"
-                sh '''
-                pwd
-                ./gradlew checkstyleMain
-                '''
-                publishHTML (target: [
-                    reportDir: 'build/reports/checkstyle/',
-                    reportFiles: 'main.html',
-                    reportName: "Checkstyle Report"
-                ])
+                if (env.BRANCH_NAME == "master" || env.BRANCH_NAME == "feature") {
+                    sh '''
+                    pwd
+                    ./gradlew checkstyleMain
+                    '''
+                    publishHTML (target: [
+                        reportDir: 'build/reports/checkstyle/',
+                        reportFiles: 'main.html',
+                        reportName: "Checkstyle Report"
+                    ])
+                }
             }
         }
   }
