@@ -45,7 +45,7 @@ podTemplate(yaml: '''
                     sh '''
                     pwd
                     chmod +x gradlew
-                    ./gradlew test
+                    ./gradlew build
                     mv ./build/libs/calculator-0.0.1-SNAPSHOT.jar /mnt
                     '''
                     }
