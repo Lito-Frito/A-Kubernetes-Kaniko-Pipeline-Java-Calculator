@@ -97,7 +97,7 @@ podTemplate(yaml: '''
           echo 'ENTRYPOINT ["java", "-jar", "app.jar"]' >> Dockerfile
           ls /mnt/*jar
           mv /mnt/calculator-0.0.1-SNAPSHOT.jar .
-          /kaniko/executor --context `pwd` --destination crc8109/hello-kaniko:1.0
+          /kaniko/executor --context `pwd` --destination crc8109/calculator-{env.BRANCH_NAME}:1.0
           '''
           }
         }
