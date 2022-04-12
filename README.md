@@ -1,4 +1,4 @@
-# Kubernetes-Kaniko Pipeline: Java Calulator
+# Kubernetes-Kaniko Pipeline: Java Calculator
 ![image](https://user-images.githubusercontent.com/56422761/163040920-4abc1c4f-8d99-4feb-b15b-33e4c1863710.png)
 
 
