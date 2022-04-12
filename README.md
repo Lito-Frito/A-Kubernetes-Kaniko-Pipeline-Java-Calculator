@@ -1,5 +1,5 @@
 # Kubernetes-Kaniko Pipeline: Java Calulator
-<div style=width="50%" height="50%">
+<div style="width:60px ; height:60px">
 ![image](https://user-images.githubusercontent.com/56422761/163040920-4abc1c4f-8d99-4feb-b15b-33e4c1863710.png)
 <div>
 
@@ -11,6 +11,7 @@ If no errors are detecting during the QA phase, the next stage is to build an im
 
 ## What This Includes
 `Jenkinsfile`: This includes all the instructions Jenkins will follow to create the calculator, test it, and then build an image from it.
+
 `pod.yaml` : This is the Kaniko container that I used to build an image of the Java calculator at the end of my pipeline. It was how I ran Docker-in-Docker.
 
 The rest of the files and folders are the necessary components to get the calculator program running and tested (or to get them running in Kubernetes).
