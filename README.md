@@ -1,5 +1,7 @@
 # Kubernetes-Kaniko Pipeline: Java Calulator
+<div style=width="50%" height="50%">
 ![image](https://user-images.githubusercontent.com/56422761/163040920-4abc1c4f-8d99-4feb-b15b-33e4c1863710.png)
+<div>
 
 This is a sample multi-branch pipeline job using Jenkins, Docker, Kubernetes, and Kaniko. The multi-branch pipeline will run various steps and use logic to determine what steps to run depending the branch of the repository it's reading.
 
