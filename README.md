@@ -1,12 +1,9 @@
 # Kubernetes-Kaniko Pipeline: Java Calculator
 ![image](https://user-images.githubusercontent.com/56422761/163040920-4abc1c4f-8d99-4feb-b15b-33e4c1863710.png)
 
+In one of my grad classes, we learned about the concept of running Docker inside of Docker. I made this project in order to help the clients I was working with back then to understand different DevOps concepts. I'd often cover what CI/CD means, some of the core technologies around them (e.g. Docker, Kubernetes, Jenkins), and why so many business have adopted this approach to development. To that end, I made this project as a visual aid for some of these concepts.
 
-This is a sample multi-branch pipeline job using Jenkins, Docker, Kubernetes, and Kaniko. The multi-branch pipeline will run various steps and use logic to determine what steps to run depending the branch of the repository it's reading.
-
-Jenkins will first build the calculator program only when one of the branches on GitHub has a pull request. Next, if you're in the Main branch, it runs code coverage tests. Using Jenkins plugins, it publishes those reports on Jenkins. If you're on the Main or Feature branch, it then runs the static code analysis tests. These reports are also published on Jenkins.
-
-If no errors are detecting during the QA phase, the next stage is to build an image of the calculator. This simulates when an app has passed all tests and is ready to be shipped as an updated image. This is done in the Kaniko container. The image name will reflect the branch name of each build (e.g. feature:0.1)  
+This is a sample multi-branch pipeline job; it uses a Docker version of Jenkins, Docker, Kubernetes, and Kaniko. I've configured Jenkins to build the calculator program only when one of the branches on GitHub has a pull request. The multi-branch pipeline uses logic to run different steps, depending what branch is being used. It will run appropriate QA tests for any production-related branches. It will also run Docker (while inside of Docker) to build an image of the Java calculator program the pipeline yielded. Finally, it will tag the image depending on the branch used and push it to Docker Hub for public use. 
 
 ## What This Includes
 `Jenkinsfile`: This includes all the instructions Jenkins will follow to create the calculator, test it, and then build an image from it.
